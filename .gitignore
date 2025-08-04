@@ -1,0 +1,10 @@
+lazy-lock.json
+.luarc.json
+
+.DS_Store
+Thumbs.db
+
+.vscode/
+*.swp
+*.swo
+*~
