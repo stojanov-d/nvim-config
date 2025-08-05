@@ -1,9 +1,25 @@
+-- Ensure we can require modules from the config directory
+local config_path = vim.fn.stdpath('config')
+
+-- Use vim.fs.normalize for cross-platform path handling
+local lua_path = vim.fs.normalize(config_path .. '/?.lua')
+local init_path = vim.fs.normalize(config_path .. '/?/init.lua')
+
+if not string.find(package.path, lua_path, 1, true) then
+    package.path = lua_path .. ';' .. init_path .. ';' .. package.path
+end
+
 require 'core.options' -- Load core options
 require 'core.keymaps' -- Load core keymaps
 
 -- Set up the Lazy plugin manager
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
+    -- Check if git is available
+    if vim.fn.executable('git') == 0 then
+        error('Git is required but not found in PATH. Please install Git.')
+    end
+
     local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
     local out = vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
     if vim.v.shell_error ~= 0 then
