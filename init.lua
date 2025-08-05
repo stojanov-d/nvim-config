@@ -9,8 +9,9 @@ if not string.find(package.path, lua_path, 1, true) then
     package.path = lua_path .. ';' .. init_path .. ';' .. package.path
 end
 
-require 'core.options' -- Load core options
-require 'core.keymaps' -- Load core keymaps
+require 'core.options'  -- Load core options
+require 'core.keymaps'  -- Load core keymaps
+require 'core.autocmds' -- Load core autocommands
 
 -- Set up the Lazy plugin manager
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
